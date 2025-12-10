@@ -45,7 +45,7 @@ function draw() {
     }
   }
 
-  image(block, x, y,block.width * 0.5, block.height * 0.5);
+  image(block, x, y,block.width * 0.1, block.height * 0.1);
 }
 
 function keyPressed() {
