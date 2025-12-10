@@ -8,7 +8,32 @@ body {
   font-family: Arial, sans-serif;
 }
 
-#container {
+#wrapper {
+  display: flex;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: center;
+  padding: 20px;
+}
+
+#text-panel {
+  max-width: 320px;
+  text-align: left;
+}
+
+#text-panel h1 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+
+#text-panel p {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+#game-panel {
   text-align: center;
 }
 
