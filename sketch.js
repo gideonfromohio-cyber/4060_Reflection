@@ -1,12 +1,13 @@
 let imgs = [];
-let block;
+let currentBlock;
+let placed = [];
 let x, y;
 let xspeed = 8;
 let yspeed = 0;
 let gravity = 0.7;
 let falling = false;
 
-let scaleFactor = 0.15;
+let scaleFactor = 0.05;
 let bw, bh;
 
 function preload() {
@@ -18,19 +19,16 @@ function preload() {
 function setup() {
   let cnv = createCanvas(600, 600);
   cnv.parent("game");
-  resetBlock();
+  newBlock();
 }
 
-function resetBlock() {
-  block = random(imgs);
-  scaleFactor = 0.15;
-
-  bw = block.width * scaleFactor;
-  bh = block.height * scaleFactor;
-
-  x = width / 2;
-  y = 80;
-  xspeed = 8;
+function newBlock() {
+  currentBlock = random(imgs);
+  bw = currentBlock.width * scaleFactor;
+  bh = currentBlock.height * scaleFactor;
+  x = random(50, width - 50);
+  y = 50;
+  xspeed = 10;
   yspeed = 0;
   falling = false;
 }
@@ -38,11 +36,13 @@ function resetBlock() {
 function draw() {
   background(230);
 
+  for (let b of placed) {
+    image(b.img, b.x, b.y, b.bw, b.bh);
+  }
+
   if (!falling) {
     x += xspeed;
-    if (x < 0 || x > width - bw) {
-      xspeed *= -1;
-    }
+    if (x < 0 || x > width - bw) xspeed *= -1;
   } else {
     yspeed += gravity;
     y += yspeed;
@@ -50,19 +50,19 @@ function draw() {
     if (y + bh >= height) {
       y = height - bh;
       yspeed = 0;
-      falling = false; // IMPORTANT FIX
-      resetBlock();    // Spawn new block automatically
+      falling = false;
+      placed.push({ img: currentBlock, x: x, y: y, bw: bw, bh: bh });
+      newBlock();
     }
   }
 
-  image(block, x, y, bw, bh);
+  image(currentBlock, x, y, bw, bh);
 }
 
 function keyPressed() {
-  if (key === " ") {
-    falling = true;
-  }
+  if (key === " ") falling = true;
   if (key === "r" || key === "R") {
-    resetBlock();
+    placed = [];
+    newBlock();
   }
 }
