@@ -6,6 +6,9 @@ let yspeed = 0;
 let gravity = 0.7;
 let falling = false;
 
+let scaleFactor = 0.15;
+let bw, bh;
+
 function preload() {
   imgs[0] = loadImage("block1.png");
   imgs[1] = loadImage("block.2.png");
@@ -20,6 +23,11 @@ function setup() {
 
 function resetBlock() {
   block = random(imgs);
+  scaleFactor = 0.15;
+
+  bw = block.width * scaleFactor;
+  bh = block.height * scaleFactor;
+
   x = width / 2;
   y = 80;
   xspeed = 8;
@@ -32,20 +40,20 @@ function draw() {
 
   if (!falling) {
     x += xspeed;
-    if (x < 0 || x > width - block.width) {
+    if (x < 0 || x > width - bw) {
       xspeed *= -1;
     }
   } else {
     yspeed += gravity;
     y += yspeed;
 
-    if (y + block.height >= height) {
-      y = height - block.height;
+    if (y + bh >= height) {
+      y = height - bh;
       yspeed = 0;
     }
   }
 
-  image(block, x, y,block.width * 0.1, block.height * 0.1);
+  image(block, x, y, bw, bh);
 }
 
 function keyPressed() {
